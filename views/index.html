@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>USB</title>
+</head>
+
+<body>
+    <h1></h1>
+
+    <p id="p1"></p>
+
+    <button id='request-device' type='button'>Request Device</button>
+
+    <button id='get-devices' type='button'>Get Devices</button>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', async () => {
+                let devices = await navigator.usb.getDevices();
+                devices.forEach(device => {
+                    console.log(device.productName);
+                    device.close();
+                });                
+        });
+
+        let buttonRequestDevice = document.getElementById('request-device');
+        buttonRequestDevice.addEventListener('click', async () => {            
+
+            let device_request;
+            try {
+                device_request = await navigator.usb.requestDevice({ filters: [{
+                    //vendorId: 0x6001
+                    //classCode: 0xFF, // vendor-specific
+                    //protocolCode: 0x01
+                }]});
+            } catch (err) {
+                // No device was selected.
+                console.log('No device...');
+                console.log(err);
+            }  
+            
+            if (device_request !== undefined) {
+                console.log(device_request);
+                device_request.open();
+            }
+
+        });
+
+
+        let buttonGetDevices = document.getElementById('get-devices');
+        buttonGetDevices.addEventListener('click', async () => {
+            let devices = await navigator.usb.getDevices();
+            devices.forEach(device => {
+                console.log('asdf');                
+            });                                               
+            
+        });
+      
+    </script>
+
+</body>
+
+</html>
