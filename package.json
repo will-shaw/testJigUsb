@@ -1,0 +1,24 @@
+{
+  "name": "syft-test-jig-node",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Thales Priolli",
+  "license": "ISC",
+  "dependencies": {
+    "chromedriver": "^2.33.2",
+    "express": "^4.16.0",
+    "fs": "0.0.1-security",
+    "http": "0.0.0",
+    "https": "^1.0.0",
+    "nexe": "^2.0.0-rc.17",
+    "opn": "^5.1.0",
+    "selenium-webdriver": "^3.6.0",
+    "serialport": "^5.0.0",
+    "web-midi-api": "^1.4.4"
+  },
+  "devDependencies": {},
+  "description": ""
+}
