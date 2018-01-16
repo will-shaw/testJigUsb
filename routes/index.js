@@ -8,11 +8,12 @@ module.exports = function(config) {
     router.use(cors())
     router.use(body_parser.json())
 
-    require('./supply_voltage')(router)
-
-    router.get('/', (req, res) => {
-        res.send('hello world')
+    router.get('/test', (req, res) => {
+        console.log(`/test accessed`)
+        res.send({hello_world: true})
     })
+
+    require('./supply_voltage')(router, config)
 
     return router
 }
