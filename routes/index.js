@@ -13,7 +13,7 @@ module.exports = function(config) {
         res.send({hello_world: true})
     })
 
-    require('./supply_voltage')(router, config)
+    require('./supply-voltage')(router, config)
 
     return router
 }

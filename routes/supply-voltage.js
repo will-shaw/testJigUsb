@@ -8,7 +8,8 @@ const TestJig = require('../controllers/TestJig')
  */
 module.exports = function(router, config) {
 
-    console.log(`try accessing ...${config.api_prefix}${SUPPLY_VOLTAGE}`)
+    console.log(`try accessing localhost:3005${config.api_prefix}${SUPPLY_VOLTAGE}`)
+
     router.post(SUPPLY_VOLTAGE, function(req, res) {
         console.log(`received request to ${SUPPLY_VOLTAGE}`)
         res.status(200).send({hi: 'hello_world'})
