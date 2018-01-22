@@ -2,47 +2,56 @@ const SerialPort = require('serialport')
 
 var port
 
-class TestJigFactory {
-
-}
 
 class TestJig {
-    constructor (port) {
-        this.port = port        
-
-        this.serialPort = new SerialPort(this.port.comName, {
-            baudRate: 9600
-        })
+    constructor (port, serialPort) {
+        this.port = port
+        this.serialPort = serialPort
 
         if (!this.serialPort) throw new Error(`could not create serial comm at port ${this.port.comName}`)
     }
-    
+
+    getComName(){
+        return this.port.comName
+    }
+
+    static async createSerialPort(comName, options) {
+        const default_options = {
+            baudRate: 9600
+        }
+        const merged_options = Object.assign(default_options, options)
+        return new SerialPort(comName, merged_options)
+    }
 
     static async listPorts () {
         return SerialPort.list()
     }
 
-    static async getPort(ports, productId = '6001') {
-        return ports.find(x => x.productId == productId)
-    }    
+    static async getPortFromComName(comName){
+        const ports = await this.listPorts()
+        return ports.find(x => x.comName === comName)
+    }
 
-    async runTest(key) {   
-        const serialPort = this.serialPort;                                    
-        return new Promise(function(resolve, reject) {
-            var serialMsg = ''
-            serialPort.write(key)            
-            serialPort.on('readable', function () {			                            
-                serialMsg += serialPort.read().toString();                
-                if(serialMsg.includes('\n')){
-                    console.log(serialMsg)
-                    this.close()                
-                    // convert value ???                    
-                    resolve(serialMsg)
-                } else if (serialMsg.length == 0){
-                    reject(Error('No message received'))
-                }                
-            })            
-        });        
+    static async getPort(productId = '6001') {
+        const ports = await this.listPorts()
+        return ports.find(x => x.productId == productId)
+    }
+
+    async runTest(key) {
+        return new Promise((resolve, reject) => {
+            let serialMessage = ''
+            this.serialPort.write(key)
+            this.serialPort.on('readable', () => {
+                serialMessage += this.serialPort.read().toString()
+                if (serialMessage.includes('\n')){
+                    console.log(serialMessage)
+                    this.serialPort.close()
+                    resolve(serialMessage)
+                } else if (serialMessage.length === 0) {
+                    reject(new Error('No Message received'))
+                }
+            })
+        })
     }   
 }
 

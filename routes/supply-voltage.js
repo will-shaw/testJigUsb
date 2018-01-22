@@ -12,9 +12,9 @@ module.exports = function(router, config) {
 
     router.get('/supply', async function(req, res){
         console.log('sending msg to TestJig')
-        const ports = await TestJig.listPorts()
-        const port = await TestJig.getPort(ports)
-        const testJig = new TestJig(port)
+        const port = await TestJig.getPort('6001')
+        const serialPort = TestJig.createSerialPort(port.comName)
+        const testJig = new TestJig(port, serialPort)
         const result = await testJig.runTest('supply')
         .then(function(result) {
             res.send(result)
