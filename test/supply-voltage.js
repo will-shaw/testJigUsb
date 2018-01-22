@@ -11,13 +11,13 @@ describe('The Test Jig Server', function() {
         this.base_url = '/api/v1.0/'
     })
 
-    it('GET /test should return hello world', function* () {
-        const res = yield this.api.get(`${this.base_url}test`)
-        expect(res.body.hello_world, true)
-    })
+    // it('GET /test should return hello world', function* () {
+    //     const res = yield this.api.get(`${this.base_url}test`)
+    //     expect(res.body.hello_world, true)
+    // })
 
     it('POST /supply_voltage should get a result', function* () {
         const res = yield this.api.post(`${this.base_url}supply_voltage`)
-        expect(res.hi, 'hello_world')
+        expect(res.body.supply_voltage1).to.equal(10)
     })
 })

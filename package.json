@@ -1,7 +1,7 @@
 {
   "name": "syft-test-jig-node",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,7 +11,6 @@
     "body-parser": "^1.18.2",
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
-    "chromedriver": "^2.33.2",
     "cors": "^2.8.4",
     "expect": "^22.1.0",
     "express": "^4.16.0",
@@ -22,7 +21,6 @@
     "mocha-generators": "^2.0.0",
     "nexe": "^2.0.0-rc.17",
     "opn": "^5.1.0",
-    "selenium-webdriver": "^3.6.0",
     "serialport": "^5.0.0",
     "web-midi-api": "^1.4.4"
   },
