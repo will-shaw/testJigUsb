@@ -16,11 +16,7 @@ module.exports = function(router, config) {
         const serialPort = TestJig.createSerialPort(port.comName)
         const testJig = new TestJig(port, serialPort)
         const result = await testJig.runTest('supply')
-        .then(function(result) {
-            res.send(result)
-        }, function(err) {
-            console.log(err)
-        })
+        res.send(result)
     })
 
     router.post(SUPPLY_VOLTAGE, async function(req, res) {
