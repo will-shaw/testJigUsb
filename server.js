@@ -7,6 +7,8 @@ app.use(config.api_prefix, require('./routes')(config))
 
 startServer(app, config.servers.http)
 
+app.use('/docs', express.static(__dirname + '/doc'))
+
 app.use(function(err, req, res, next) {
     logger.error(err.stack)
 

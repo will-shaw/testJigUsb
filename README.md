@@ -15,3 +15,11 @@ On the second block of links instead of showing the results on the web page, the
 In order to use the webUSB API type https://localhost:8000/usb. You will see two buttons "Request Device" and "Get Devices". The first one call the navigator.usb.requestDevice() and once you select one device and click in Connect, it will try to open the connection, which at moment returns a "DOMException: Access denied" error on console. 
 
 The "Request Device" button only lists the requested devices on console.
+
+
+
+
+## documentation
+ - You can access api routes via `http://localhost:3005/docs/`
+ - It can be compiled via the following command `apidoc -i routes/  -o doc/
+`

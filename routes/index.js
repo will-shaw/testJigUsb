@@ -13,7 +13,13 @@ module.exports = function(config) {
         res.send({hello_world: true})
     })
 
+    require('./setup')(router, config)
+
     require('./supply-voltage')(router, config)
+
+    require('./led')(router, config)
+
+    require('./test-jig-utils')(router, config)
 
     return router
 }

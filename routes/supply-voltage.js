@@ -1,31 +1,62 @@
 const SUPPLY_VOLTAGE = '/supply_voltage'
 const TestJig = require('../controllers/TestJig')
 
+
 /**
- * Routes following .../tag_options
- * @param router the express router
- * @param config config file
+ *
+ * @api {POST} /:module/supply_voltage Check the supply Voltage
+ * @apiGroup supply_voltage
+ * @apiVersion 0.1.0
+ *
+ *
+ * @apiSuccess {Number} supply_voltage Supply Voltage of a given module
+ *
+ * @apiSuccessExample Success-Response:
+ * {
+ *  suppy_voltage: 50
+ * }
  */
+const supply_voltage = async (req, res) => {
+    console.log('sending msg to TestJig')
+    const port = await TestJig.getPort('6001')
+    const serialPort = TestJig.createSerialPort(port.comName)
+    const testJig = new TestJig(port, serialPort)
+    const result = await testJig.runTest('supply')
+    res.send(result)
+}
+
+/**
+ *
+ * @api {POST} /:module/setpoint/:voltage Set the Setpoint Voltage
+ * @apiDescription Sets the voltage set point to the specified voltage and reads it back:
+ * @apiGroup setpoint
+ * @apiVersion 0.1.0
+ *
+ * @apiSuccess {Number} feed_back FeedBack Voltage
+ * @apiSuccess {Number} load_average The Load Average
+ * @apiSuccess {Number} load_min_value Load Min Value
+ * @apiSuccess {Number} load_max_value Load Max Value
+ *
+ * @apiSuccessExample Success-Response:
+ * {
+ *  feed_back: 0.007,
+ *  load_average: 0.007,
+ *  load_min_value: 0,
+ *  load_max_value: 0.114,
+ * }
+ */
+const setpoint_voltage = async (req, res) => {
+
+}
+
 module.exports = function(router, config) {
 
     console.log(`try accessing localhost:3005${config.api_prefix}${SUPPLY_VOLTAGE}`)
 
-    router.get('/supply', async function(req, res){
-        console.log('sending msg to TestJig')
-        const port = await TestJig.getPort('6001')
-        const serialPort = TestJig.createSerialPort(port.comName)
-        const testJig = new TestJig(port, serialPort)
-        const result = await testJig.runTest('supply')
-        res.send(result)
-    })
+    router.route('/:module/supply_voltage')
+        .post(supply_voltage)
 
-    router.post(SUPPLY_VOLTAGE, async function(req, res) {
-        console.log(`received request to ${SUPPLY_VOLTAGE}`)
-        res.status(200).send({hi: 'hello_world'})
-    })
+    router.route('/:module/setpoint/:voltage')
+        .post(setpoint_voltage)
 
-    router.get('/ports', async function(req, res) {
-        const ports = await TestJig.listPorts()
-        res.send(ports)
-    })
 }
