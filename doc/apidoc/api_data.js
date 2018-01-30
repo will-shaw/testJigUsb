@@ -1,0 +1,301 @@
+define({ "api": [
+  {
+    "type": "POST",
+    "url": "/:module/led/:name/is_on",
+    "title": "Check an LED's State",
+    "description": "<p>Check whether the given LED is on</p>",
+    "group": "led",
+    "version": "0.1.0",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Boolean",
+            "optional": false,
+            "field": "on",
+            "description": "<p>Whether the LED is on</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n on: true\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "routes/led.js",
+    "groupTitle": "led",
+    "name": "PostModuleLedNameIs_on"
+  },
+  {
+    "type": "POST",
+    "url": "/:module/led/:name/on_range",
+    "title": "LED's on range",
+    "description": "<p>Checks the voltages at which an LED is on for</p>",
+    "group": "led",
+    "version": "0.1.0",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "on_min",
+            "description": "<p>Minimum Voltage at which the the LED is on</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "on_max",
+            "description": "<p>Maximum Voltage at which the the LED is on</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n on_min: true,\n on_max: true\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "routes/led.js",
+    "groupTitle": "led",
+    "name": "PostModuleLedNameOn_range"
+  },
+  {
+    "type": "POST",
+    "url": "/:module/led/:name/on_threshold",
+    "title": "LED's on threshold",
+    "description": "<p>Checks the voltage at which a specified LED turns on</p>",
+    "group": "led",
+    "version": "0.1.0",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Boolean",
+            "optional": false,
+            "field": "on_threshold",
+            "description": "<p>On threshhold for the LED</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n on_threshold: true\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "routes/led.js",
+    "groupTitle": "led",
+    "name": "PostModuleLedNameOn_threshold"
+  },
+  {
+    "type": "POST",
+    "url": "/:module/setpoint/:voltage",
+    "title": "Set the Setpoint Voltage",
+    "description": "<p>Sets the voltage set point to the specified voltage and reads it back:</p>",
+    "group": "setpoint",
+    "version": "0.1.0",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "feed_back",
+            "description": "<p>FeedBack Voltage</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "load_average",
+            "description": "<p>The Load Average</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "load_min_value",
+            "description": "<p>Load Min Value</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "load_max_value",
+            "description": "<p>Load Max Value</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n feed_back: 0.007,\n load_average: 0.007,\n load_min_value: 0,\n load_max_value: 0.114,\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "routes/supply-voltage.js",
+    "groupTitle": "setpoint",
+    "name": "PostModuleSetpointVoltage"
+  },
+  {
+    "type": "POST",
+    "url": "/:module/setup/led/:name/is_on",
+    "title": "Check an LED's State",
+    "group": "setup",
+    "version": "0.1.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": ":name",
+            "description": "<p>Name of led to be checked</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Boolean",
+            "optional": false,
+            "field": "passed",
+            "description": "<p>Whether the setup test has passed</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n passed: true\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "routes/setup.js",
+    "groupTitle": "setup",
+    "name": "PostModuleSetupLedNameIs_on"
+  },
+  {
+    "type": "POST",
+    "url": "/:module/setup/supply_voltage",
+    "title": "Check supply voltage",
+    "group": "setup",
+    "version": "0.1.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "min",
+            "description": "<p>Minimum acceptable Voltage</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "max",
+            "description": "<p>Maximum acceptable Voltage</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Boolean",
+            "optional": false,
+            "field": "passed",
+            "description": "<p>Whether the setup test has passed</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n passed: true\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "routes/setup.js",
+    "groupTitle": "setup",
+    "name": "PostModuleSetupSupply_voltage"
+  },
+  {
+    "type": "POST",
+    "url": "/:module/supply_voltage",
+    "title": "Check the supply Voltage",
+    "group": "supply_voltage",
+    "version": "0.1.0",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "supply_voltage",
+            "description": "<p>Supply Voltage of a given module</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "{\n suppy_voltage: 50\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "routes/supply-voltage.js",
+    "groupTitle": "supply_voltage",
+    "name": "PostModuleSupply_voltage"
+  },
+  {
+    "type": "GET",
+    "url": "/ports",
+    "title": "List Ports",
+    "description": "<p>Lists the Available Ports</p>",
+    "group": "utils",
+    "version": "0.1.0",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Array",
+            "optional": false,
+            "field": "ports",
+            "description": "<p>List of Ports</p>"
+          }
+        ]
+      }
+    },
+    "filename": "routes/test-jig-utils.js",
+    "groupTitle": "utils",
+    "name": "GetPorts"
+  }
+] });
