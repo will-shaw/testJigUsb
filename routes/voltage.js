@@ -45,7 +45,7 @@ const get_voltage = async (req, res) => {
  *  load_max_value: 0.114,
  * }
  */
-const setpoint_voltage = async (req, res) => {
+const set_voltage = async (req, res) => {
 
 }
 
@@ -54,9 +54,9 @@ module.exports = function(router, config) {
     console.log(`try accessing localhost:3005${config.api_prefix}${VOLTAGE}`)
 
     router.route('/:module/voltage/get/:name')
-        .post(supply_voltage)
+        .post(get_voltage)
 
     router.route('/:module/voltage/set/:name')
-        .post(setpoint_voltage)
+        .post(set_voltage)
 
 }

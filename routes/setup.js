@@ -46,7 +46,7 @@ const led_is_on = (req, res) => {
 module.exports = function(router, config) {
 
     router.route('/:module/setup/voltage/get/:name')
-        .post(supply_voltage)
+        .post(get_voltage)
 
     router.route('/:module/setup/led/is_on/:name')
         .post(led_is_on)
