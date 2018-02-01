@@ -15,7 +15,7 @@ module.exports = function(config) {
 
     require('./setup')(router, config)
 
-    require('./supply-voltage')(router, config)
+    require('./voltage')(router, config)
 
     require('./led')(router, config)
 

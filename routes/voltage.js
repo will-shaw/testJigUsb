@@ -1,10 +1,10 @@
-const SUPPLY_VOLTAGE = '/supply_voltage'
+const VOLTAGE = '/voltage'
 const TestJig = require('../controllers/TestJig')
 
 
 /**
  *
- * @api {POST} /:module/supply_voltage Check the supply Voltage
+ * @api {POST} /:module/voltage/get/:name Check the supply Voltage
  * @apiGroup supply_voltage
  * @apiVersion 0.1.0
  *
@@ -16,18 +16,18 @@ const TestJig = require('../controllers/TestJig')
  *  suppy_voltage: 50
  * }
  */
-const supply_voltage = async (req, res) => {
+const get_voltage = async (req, res) => {
     console.log('sending msg to TestJig')
     const port = await TestJig.getPort('6001')
     const serialPort = TestJig.createSerialPort(port.comName)
     const testJig = new TestJig(port, serialPort)
-    const result = await testJig.runTest('supply')
+    const result = await testJig.runTest(req.params.name)
     res.send(result)
 }
 
 /**
  *
- * @api {POST} /:module/setpoint/:voltage Set the Setpoint Voltage
+ * @api {POST} /:module/voltage/set/:name Set the Setpoint Voltage
  * @apiDescription Sets the voltage set point to the specified voltage and reads it back:
  * @apiGroup setpoint
  * @apiVersion 0.1.0
@@ -51,12 +51,12 @@ const setpoint_voltage = async (req, res) => {
 
 module.exports = function(router, config) {
 
-    console.log(`try accessing localhost:3005${config.api_prefix}${SUPPLY_VOLTAGE}`)
+    console.log(`try accessing localhost:3005${config.api_prefix}${VOLTAGE}`)
 
-    router.route('/:module/supply_voltage')
+    router.route('/:module/voltage/get/:name')
         .post(supply_voltage)
 
-    router.route('/:module/setpoint/:voltage')
+    router.route('/:module/voltage/set/:name')
         .post(setpoint_voltage)
 
 }

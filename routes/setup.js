@@ -4,7 +4,7 @@ const TestJig = require('../controllers/TestJig')
 
 /**
  *
- * @api {POST} /:module/setup/supply_voltage Check supply voltage
+ * @api {POST} /:module/setup/voltage/get/:name Check supply voltage
  * @apiGroup setup
  * @apiVersion 0.1.0
  *
@@ -19,13 +19,13 @@ const TestJig = require('../controllers/TestJig')
  * }
  *
  */
-const supply_voltage = (req, res) => {
+const get_voltage = (req, res) => {
 
 }
 
 /**
  *
- * @api {POST} /:module/setup/led/:name/is_on Check an LED's State
+ * @api {POST} /:module/setup/led/is_on/:name Check an LED's State
  * @apiGroup setup
  * @apiVersion 0.1.0
  *
@@ -45,9 +45,9 @@ const led_is_on = (req, res) => {
 
 module.exports = function(router, config) {
 
-    router.route('/:module/setup/supply_voltage')
+    router.route('/:module/setup/voltage/get/:name')
         .post(supply_voltage)
 
-    router.route('/:module/setup/led/:name/is_on')
+    router.route('/:module/setup/led/is_on/:name')
         .post(led_is_on)
 }

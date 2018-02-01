@@ -1,7 +1,7 @@
 
 /**
  *
- * @api {POST} /:module/led/:name/is_on Check an LED's State
+ * @api {POST} /:module/led/is_on/:name Check an LED's State
  * @apiDescription Check whether the given LED is on
  * @apiGroup led
  * @apiVersion 0.1.0
@@ -21,7 +21,7 @@ const is_on = (req, res) => {
 
 /**
  *
- * @api {POST} /:module/led/:name/on_threshold LED's on threshold
+ * @api {POST} /:module/led/on_threshold/:name LED's on threshold
  * @apiDescription Checks the voltage at which a specified LED turns on
  * @apiGroup led
  * @apiVersion 0.1.0
@@ -42,7 +42,7 @@ const on_threshold = (req, res) => {
 
 /**
  *
- * @api {POST} /:module/led/:name/on_range LED's on range
+ * @api {POST} /:module/led/on_range/:name LED's on range
  * @apiDescription Checks the voltages at which an LED is on for
  * @apiGroup led
  * @apiVersion 0.1.0
@@ -65,13 +65,13 @@ const on_range = (req, res) => {
 
 module.exports = (router, config) => {
 
-    router.route('/:module/led/:name/is_on')
+    router.route('/:module/led/is_on/:name')
         .post(is_on)
 
-    router.route('/:module/led/:name/on_range')
+    router.route('/:module/led/on_range/:name')
         .post(on_range)
 
-    router.route('/:module/led/:name/on_threshold')
+    router.route('/:module/led/on_threshold/:name')
         .post(on_threshold)
 
 }

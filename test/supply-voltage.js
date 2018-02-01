@@ -17,7 +17,7 @@ describe('The Test Jig Server', function() {
     // })
 
     it('POST /supply_voltage should get a result', function* () {
-        const res = yield this.api.post(`${this.base_url}supply_voltage`)
+        const res = yield this.api.post(`${this.base_url}/:module/voltage/get/supply`)
         expect(res.body.supply_voltage1).to.equal(10)
     })
 })
