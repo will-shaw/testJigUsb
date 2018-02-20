@@ -1,3 +1,5 @@
+const TestJig = require('../controllers/TestJig')
+const Server = require('../server')
 
 /**
  *
@@ -15,8 +17,18 @@
  * }
  *
  */
-const is_on = (req, res) => {
-
+const is_on = async (req, res) => {    
+    console.log(req.path)
+    const port = TestJig.getPort('6001')    
+    const testJig = new TestJig(port)   
+    testJig.runTest(req.path + '|').then(function(result) {
+        res.send( {
+            led_is_on: (result.trim() == 'true')
+        })
+    })
+    .catch(function(err){        
+        res.status(400).send(err)
+    }) 
 }
 
 /**
@@ -35,8 +47,18 @@ const is_on = (req, res) => {
  * }
  *
  */
-const on_threshold = (req, res) => {
-
+const on_threshold = async (req, res) => {
+    const port = await TestJig.getPort('6001')    
+    const testJig = new TestJig(port)
+    console.log(req.path)
+    testJig.runTest(req.path + '|').then(function(result) {
+        res.send( {
+            led_on_threshold: result.trim()
+        })
+    })
+    .catch(function(err){        
+        res.status(400).send(err)
+    })     
 }
 
 
@@ -58,8 +80,20 @@ const on_threshold = (req, res) => {
  * }
  *
  */
-const on_range = (req, res) => {
-
+const on_range = async (req, res) => {
+    console.log('on_range_led')
+    const port = await TestJig.getPort('6001')    
+    const testJig = new TestJig(port, port.comName)
+    testJig.runTest(req.path + '|').then(function(result) {
+        result = result.split(" ") 
+        res.send( {
+            led_on_min: result[0],        
+            led_on_max: result[1].trim()
+        })
+    })
+    .catch(function(err){        
+        res.status(400).send(err)
+    })         
 }
 
 

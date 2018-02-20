@@ -1,6 +1,5 @@
-const SUPPLY_VOLTAGE = '/supply_voltage'
 const TestJig = require('../controllers/TestJig')
-
+const Server = require('../init/start-server')
 
 /**
  *
@@ -38,15 +37,48 @@ const get_voltage = (req, res) => {
  *  passed: true
  * }
  */
-const led_is_on = (req, res) => {
+const led_is_on = async (req, res) => {
+    
+    console.log(req.path)
+    const port = await TestJig.getPort('6001')    
+    const testJig = new TestJig(port)   
+    console.log(0)     
+    await testJig.runTest(req.path + '|').then(function(result) {
+        res.send( {
+            passed: (result.trim() == 'true')
+        })
+    })
+    .catch(function(err){        
+        res.status(400).send(err)
+    }) 
+}
 
+/**
+ *
+ * @api {POST} /:module/setup/no No setup phase
+ * @apiGroup setup
+ * @apiVersion 0.1.0
+ *
+ * @apiParam {String} :no param
+ *
+ * @apiSuccess {Boolean} this route will always return true
+ *
+ * @apiSuccessExample Success-Response:
+ * {
+ *  passed: true
+ * }
+ */
+const no_setup = (req, res) => {    
+    res.send({
+        passed: true
+    })
 }
 
 
 module.exports = function(router, config) {
 
-    router.route('/:module/setup/voltage/get/:name')
-        .post(get_voltage)
+    router.route('/:module/setup/no')
+        .post(no_setup)
 
     router.route('/:module/setup/led/is_on/:name')
         .post(led_is_on)
