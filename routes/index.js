@@ -4,7 +4,7 @@ const body_parser = require('body-parser')
 const router = express.Router()
 
 
-module.exports = function(config) {
+module.exports = function(config, testJig) {
     router.use(cors())
     router.use(body_parser.json())
 
@@ -13,11 +13,11 @@ module.exports = function(config) {
         res.send({hello_world: true})
     })
 
-    require('./setup')(router, config)
+    require('./setup')(router, config, testJig)
 
-    require('./voltage')(router, config)
+    require('./voltage')(router, config, testJig)
 
-    require('./led')(router, config)
+    require('./led')(router, config, testJig)
 
     require('./test-jig-utils')(router, config)
 

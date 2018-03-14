@@ -2,8 +2,11 @@ const config = require('./config')
 const express = require('express')
 const app = express()
 const { startServer } = require('./init')
+const TestJig = require('./controllers/TestJig')
 
-app.use(config.api_prefix, require('./routes')(config))
+const testJig = new TestJig()
+
+app.use(config.api_prefix, require('./routes')(config, testJig))
 
 startServer(app, config.servers.http)
 
@@ -18,7 +21,6 @@ app.use(function(err, req, res, next) {
         res.status(500).send('Something broke!')
     }
 });
-
 
 
 module.exports = app

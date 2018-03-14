@@ -1,13 +1,13 @@
 var nexe = require('nexe');
 
 nexe.compile({
-   input: 'index.js',
-   output: 'D:/Desktop/Syft/syft-test-jig-node/setup',
-   nodeVersion: '6.11.4',
+   input: 'server.js',
+   output: 'C:/Users/thales.priolli/Documents/TestJigServer/setupServerTestJig',
+   nodeVersion: '8.9.4',
    nodeTempDir: 'src',
-   python: 'D:/Python01',
-   flags: true
-   //loglevel: 'verbose'
+   //python: 'D:/Python01',
+   flags: true,
+   loglevel: 'verbose'
 }, function(err) {
    console.log(err);
 });
