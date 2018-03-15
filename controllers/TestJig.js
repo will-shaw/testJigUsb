@@ -54,7 +54,7 @@ class TestJig {
                 setTimeout(function () {                    
                     i--;
                     if (i < 1) {
-                        testJig.serialPort.close()  
+                        testJig.serialPort = null                    
                         reject('time out (10s)') 
                     } else if (testJig.serialPort != null) {
                         delay1s()                                         
@@ -71,6 +71,7 @@ class TestJig {
     async runTest(key, testJig) {   
 
         return new Promise(function (resolve, reject) {
+            
             testJig.serialPort = new SerialPort(testJig.port.comName, {
                 baudRate: 9600,
                 autoOpen: false
@@ -79,13 +80,18 @@ class TestJig {
             let index = testJig.queue.indexOf(key.substring(0, key.length - 1))
             if(index == -1){                
                 testJig.queue = [] 
+                testJig.serialPort = null
+                reject('Test is not in the queue') 
             } else {
+                //console.log(testJig.queue[0])
+                key = testJig.queue[index]+'|'
                 testJig.queue.splice(index, 1) 
             }
 
             testJig.serialPort.open(function (err) {
                 if (err) {
-                  return console.log('Error opening port: ', err.message);
+                    testJig.serialPort = null
+                    reject('Error opening port: ' + err.message.toString())                  
                 }
                                
                 testJig.serialPort.write(key)
@@ -102,7 +108,7 @@ class TestJig {
                     } else if (testResult.length == 0){
                         console.log('Error: No Message receivedPromise')                    
                         testResult = ''
-                        this.serialPort.close()
+                        testJig.serialPort.close()
                         testJig.serialPort = null
                         reject('No Message received')
                     }   
@@ -112,14 +118,10 @@ class TestJig {
 
             testJig.serialPort.on('error', function(err) {
                 //testJig.serialPort.close()
+                testJig.serialPort = null
                 reject(new Error(err.message).toString())
             })
-
-            // if(testResult.includes('\n')){
-            //     resolve(testResult)
-            // } else {
-            //     reject('No result')
-            // }
+            
                                                                
         });      
         
