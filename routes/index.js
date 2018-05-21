@@ -6,6 +6,14 @@ const router = express.Router()
 
 module.exports = function(config, testJig) {
     router.use(cors())
+
+
+router.use(/.*/, (req, res, next) => {
+    const date = new Date()
+    console.log(`${req.method}:${req.originalUrl}\t${date.toLocaleTimeString()}.${date.getMilliseconds()}`)
+    next()
+})
+
     router.use(body_parser.json())
 
     router.get('/test', (req, res) => {
@@ -23,5 +31,3 @@ module.exports = function(config, testJig) {
 
     return router
 }
-
-

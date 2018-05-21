@@ -6,6 +6,7 @@ const TestJig = require('./controllers/TestJig')
 
 const testJig = new TestJig()
 
+
 app.use(config.api_prefix, require('./routes')(config, testJig))
 
 startServer(app, config.servers.http)
@@ -24,11 +25,3 @@ app.use(function(err, req, res, next) {
 
 
 module.exports = app
-
-
-
-
-
-
-
-
