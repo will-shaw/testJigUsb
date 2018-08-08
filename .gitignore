@@ -4,3 +4,6 @@ node_modules
 .vscode/
 .DS_STORE
 package-lock.json
+*.exe
+doc/
+build/

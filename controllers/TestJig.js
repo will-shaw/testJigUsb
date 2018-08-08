@@ -33,99 +33,135 @@ class TestJig {
         return ports.find(x => x.comName === comName)
     }
 
-    async getPort(productId = '6001') {
+    async getPort(productId = '5740') {
         const ports = await this.listPorts()
 
-        return ports.find(x => x.productId == productId)
+        return ports.find(x => x.productId == '5740')
     }
 
-    async setPort(productId = '6001') {
+    async setPort(productId = '5740') {
         const ports = await SerialPort.list()
-
-        this.port = ports.find(x => x.productId == productId)
+        this.port = ports.find(x => (x.productId == '5740'))
     }
 
     waitForComPort(testJig) {
 
         return new Promise(function (resolve, reject){
-            var i = 10; // total waiting time in seconds for COM port to be available
 
-            function delay1s () {
+            var counter = 0          
+
+            function delay () {                
+
                 setTimeout(function () {
-                    i--;
-                    if (i < 1) {
+                    if (counter > 10000) { // total delay in ms
                         testJig.serialPort = null
-                        reject('time out (10s)')
+                        console.log('Timeout: com port')
+                        reject('-1')
                     } else if (testJig.serialPort != null) {
-                        delay1s()
+                        counter += 250 
+                        delay()
                     } else {
                         resolve()
                     }
-                }, 1000)
+                }, 250)
             }
 
-            delay1s();
+            delay();
+        
         })
+        
     }
 
     async runTest(key, testJig) {
 
         return new Promise(function (resolve, reject) {
 
-            testJig.serialPort = new SerialPort(testJig.port.comName, {
+            testJig.serialPort = null
+            testJig.serialPort = new SerialPort(testJig.port.comName, { 
+                autoOpen: false,               
                 baudRate: 9600,
-                autoOpen: false
-            });
+                dataBits: 8,
+                parity: "none",
+                stopBits: 1
+            });            
 
             let index = testJig.queue.indexOf(key.substring(0, key.length - 1))
             if(index == -1){
                 testJig.queue = []
                 testJig.serialPort = null
-                reject('Test is not in the queue')
+                console.log('Something broke in the test queue')
+                reject('-2')
             } else {
                 //console.log(testJig.queue[0])
                 key = testJig.queue[index]+'|'
                 testJig.queue.splice(index, 1)
             }
 
+            // var tempQueue = testJig.queue
+            // function abrir(){                
+            //     testJig.serialPort = null
+            //     testJig.serialPort = new SerialPort(testJig.port.comName, { 
+            //         autoOpen: false,               
+            //         baudRate: 9600,
+            //         dataBits: 8,
+            //         parity: "none",
+            //         stopBits: 1,
+            //     });
+
+            //     testJig.serialPort.open(function (err) {
+            //         if (err) {
+            //             //testJig.serialPort = null
+            //             //testJig.serialPort.close()
+            //             console.log('Error opening the COM port -> ' + err.message)                           
+            //             //reject('-3')
+            //         } else {
+            //             testJig.queue = tempQueue
+            //             return;
+            //         }
+            //         setTimeout(abrir, 2000); // next attempt to open after 2s
+            //     });
+            // }
+
             testJig.serialPort.open(function (err) {
                 if (err) {
                     testJig.serialPort = null
-                    reject('Error opening port: ' + err.message.toString())
+                    //testJig.serialPort.close()
+                    console.log('Error opening the COM port -> ' + err.message)   
+                    //abrir()                        
+                    reject('-3')
                 }
-
+            
+            
                 let testResult = ''
-                // console.log('Adding')
                 testJig.serialPort.on('data', function (data) {
                     testResult += data.toString()
                     if(testResult.includes('\n')){
                         testJig.serialPort.close()
-                        //console.log(testResult + testJig.queue.length)
+                        //console.log(testResult)
                         testJig.serialPort = null;
                         resolve(testResult)
                     } else if (testResult.length == 0){
-                        console.log('Error: No Message receivedPromise')
                         testResult = ''
                         testJig.serialPort.close()
                         testJig.serialPort = null
-                        reject('No Message received')
+                        console.log('No Message received')
+                        reject('-4')
                     }
                 });
 
-                // console.log('Writing')
                 testJig.serialPort.write(key, () => {
-                    console.log('Completed')
+                    console.log(key)
                 })
-                // console.log(key)
             });
+            
 
 
             testJig.serialPort.on('error', function(err) {
-                //testJig.serialPort.close()
+                testJig.serialPort.close()
                 testJig.serialPort = null
-                reject(new Error(err.message).toString())
+                console.log('SerialPort.on Error')
+                reject('-5')
             })
-
 
         });
 

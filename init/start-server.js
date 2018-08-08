@@ -13,7 +13,7 @@ module.exports = function(app, options) {
             break;
     }
     server.listen(options.port)
-    console.log(`${options.protocol} server listening on port ${options.port}`)
+    console.log(`${options.protocol} server listening on port ${options.port}`)    
     return server
 
 }
