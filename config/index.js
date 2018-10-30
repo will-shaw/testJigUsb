@@ -15,7 +15,7 @@ const config = {
         // },
         servers: {
             http: server('http', 3005),
-            //https: server('https', 3006)
+            https: server('https', 3005)
         },
         api_prefix: '/api/v1.0'
     },

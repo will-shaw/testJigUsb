@@ -14,6 +14,10 @@ app.use(body_parser.urlencoded({
     extended: true
 }))
 
+app.use('/test', (_, res) => {
+    res.status(200).send('Jig Server is running.');
+});
+
 app.use('/api/v1.0', require('./routes/index'))
 
 app.use(function(err, req, res, next) {
@@ -26,6 +30,6 @@ app.use(function(err, req, res, next) {
     }
 });
 
-startServer(app, config.servers.http) 
+startServer(app, config.servers.https)
 
 module.exports = app

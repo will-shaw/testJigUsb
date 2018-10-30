@@ -1,6 +1,6 @@
 const http = require('http')
 const https = require('https')
-const credentials = require('../config/sslcert/index')
+const credentials = require('../cert')
 
 module.exports = function(app, options) {
     let server
@@ -13,7 +13,7 @@ module.exports = function(app, options) {
             break;
     }
     server.listen(options.port)
-    console.log(`${options.protocol} server listening on port ${options.port}`)    
+    console.log(`${options.protocol} server listening on port ${options.port}`)
     return server
 
 }
