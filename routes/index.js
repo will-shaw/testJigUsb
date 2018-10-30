@@ -6,7 +6,7 @@ const testJig = new TestJig()
 
 router.all('/:module/:group/:name/:point/:value', async (req, res) => {
 
-    console.log(req.path)    
+    console.log(req.path)
 
     testJig.queue.push(req.path)
     await testJig.setPort('6001')
@@ -25,11 +25,11 @@ router.all('/:module/:group/:name/:point/:value', async (req, res) => {
                 item = item.trim();
                 item = isNaN(item) ? item : parseFloat(item);
                 item = item === 'false' ? false : item;
-                item = item === 'true' ? true : item;                                
-                 
+                item = item === 'true' ? true : item;
+
                 data[`prop${count++}`] = item;
 
-            })     
+            })
 
             console.log(data);
 
@@ -61,7 +61,7 @@ router.all('/:module/:group/:name/:point', async (req, res) => {
     //console.log(req.path)
 
     testJig.queue.push(req.path)
-    await testJig.setPort('5740')
+    await testJig.setPort('6001')
     testJig.waitForComPort(testJig).then(function (result) {
         testJig.runTest(req.path + '|', testJig).then(function (result) {
             //console.log(req.path)
@@ -77,8 +77,8 @@ router.all('/:module/:group/:name/:point', async (req, res) => {
                 item = item.trim();
                 item = isNaN(item) ? item : parseFloat(item);
                 item = item === 'false' ? false : item;
-                item = item === 'true' ? true : item;                                
-                 
+                item = item === 'true' ? true : item;
+
                 data[`prop${count++}`] = item;
 
             })

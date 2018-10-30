@@ -41,16 +41,16 @@ class TestJig {
 
     async setPort(productId = '5740') {
         const ports = await SerialPort.list()
-        this.port = ports.find(x => (x.productId == '5740'))
+        this.port = ports.find(x => (x.productId == productId))
     }
 
     waitForComPort(testJig) {
 
         return new Promise(function (resolve, reject){
 
-            var counter = 0          
+            var counter = 0
 
-            function delay () {                
+            function delay () {
 
                 setTimeout(function () {
                     if (counter > 10000) { // total delay in ms
@@ -58,7 +58,7 @@ class TestJig {
                         console.log('Timeout: com port')
                         reject('-1')
                     } else if (testJig.serialPort != null) {
-                        counter += 250 
+                        counter += 250
                         delay()
                     } else {
                         resolve()
@@ -67,9 +67,9 @@ class TestJig {
             }
 
             delay();
-        
+
         })
-        
+
     }
 
     async runTest(key, testJig) {
@@ -77,13 +77,13 @@ class TestJig {
         return new Promise(function (resolve, reject) {
 
             testJig.serialPort = null
-            testJig.serialPort = new SerialPort(testJig.port.comName, { 
-                autoOpen: false,               
+            testJig.serialPort = new SerialPort(testJig.port.comName, {
+                autoOpen: false,
                 baudRate: 9600,
                 dataBits: 8,
                 parity: "none",
                 stopBits: 1
-            });            
+            });
 
             let index = testJig.queue.indexOf(key.substring(0, key.length - 1))
             if(index == -1){
@@ -98,10 +98,10 @@ class TestJig {
             }
 
             // var tempQueue = testJig.queue
-            // function abrir(){                
+            // function abrir(){
             //     testJig.serialPort = null
-            //     testJig.serialPort = new SerialPort(testJig.port.comName, { 
-            //         autoOpen: false,               
+            //     testJig.serialPort = new SerialPort(testJig.port.comName, {
+            //         autoOpen: false,
             //         baudRate: 9600,
             //         dataBits: 8,
             //         parity: "none",
@@ -112,7 +112,7 @@ class TestJig {
             //         if (err) {
             //             //testJig.serialPort = null
             //             //testJig.serialPort.close()
-            //             console.log('Error opening the COM port -> ' + err.message)                           
+            //             console.log('Error opening the COM port -> ' + err.message)
             //             //reject('-3')
             //         } else {
             //             testJig.queue = tempQueue
@@ -126,12 +126,12 @@ class TestJig {
                 if (err) {
                     testJig.serialPort = null
                     //testJig.serialPort.close()
-                    console.log('Error opening the COM port -> ' + err.message)   
-                    //abrir()                        
+                    console.log('Error opening the COM port -> ' + err.message)
+                    //abrir()
                     reject('-3')
                 }
-            
-            
+
+
                 let testResult = ''
                 testJig.serialPort.on('data', function (data) {
                     testResult += data.toString()
@@ -153,7 +153,7 @@ class TestJig {
                     console.log(key)
                 })
             });
-            
+
 
 
             testJig.serialPort.on('error', function(err) {
