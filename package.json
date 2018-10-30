@@ -1,6 +1,6 @@
 {
   "name": "syft-test-jig-api",
-  "version": "1.0.0",
+  "version": "2.3.0",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
